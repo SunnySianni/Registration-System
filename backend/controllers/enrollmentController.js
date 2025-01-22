@@ -1,4 +1,4 @@
-import { query } from '../config/database.js';
+import { connectDB, query } from '../../config/database.js';
 
 export const getEnrollments = async (req, res) => {
   try {
