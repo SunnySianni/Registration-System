@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Student Information System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="course-registration.html">Course Registration</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="#" id="logoutButton">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Welcome, <span id="studentName"></span></h1>
+        <h2>Your Courses</h2>
+        <div id="courseList" class="course-list"></div>
+    </div>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
