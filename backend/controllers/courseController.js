@@ -1,4 +1,4 @@
-import { query } from '../config/database.js';
+import { query } from '../../config/database.js';
 
 export const getAllCourses = async (req, res) => {
   try {
