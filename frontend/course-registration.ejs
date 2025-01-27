@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Student Information System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/dashboard" class="<%= activePage === 'dashboard' ? 'active' : '' %>">Dashboard</a></li>
+                <li><a href="/course-registration" class="<%= activePage === 'course-registration' ? 'active' : '' %>">Course Registration</a></li>
+                <li><a href="/profile" class="<%= activePage === 'profile' ? 'active' : '' %>">Profile</a></li>
+                <li><a href="#" id="logoutButton">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h1><%= title %></h1>
+        <div id="availableCourses" class="course-list">
+            <% if (courses && courses.length > 0) { %>
+                <ul>
+                    <% courses.forEach(course => { %>
+                        <li>
+                            <strong><%= course.name %></strong> - <%= course.department %> (<%= course.credits %> credits)
+                            <button onclick="registerCourse('<%= course.id %>')">Register</button>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <p>No courses available for registration at the moment.</p>
+            <% } %>
+        </div>
+    </div>
+    <script>
+        const logoutButton = document.getElementById('logoutButton');
+        logoutButton.addEventListener('click', () => {
+            // Implement logout logic here
+            alert('Logged out successfully!');
+        });
+
+        const registerCourse = (courseId) => {
+            // Implement course registration logic here
+            alert(`Registered for course ID: ${courseId}`);
+        };
+    </script>
+</body>
+</html>

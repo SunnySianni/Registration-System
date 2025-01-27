@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Student Information System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <form id="loginForm" class="form" method="POST" action="/login">
+            <h2><%= title %></h2>
+
+            <!-- Display error message dynamically -->
+            <% if (errorMessage) { %>
+                <div id="errorMessage" class="error-message"><%= errorMessage %></div>
+            <% } %>
+
+            <!-- Username Field -->
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="<%= username || '' %>" required>
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="loginButton">Login</button>
+        </form>
+    </div>
+</body>
+</html>
