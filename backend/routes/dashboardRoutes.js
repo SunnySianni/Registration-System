@@ -1,26 +1,24 @@
 import express from 'express';
-import { authenticateToken } from '../middleware/authMiddleware.js';
+import { authenticateToken } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-// Example route to fetch dashboard data
-router.get('/', authenticateToken, async (req, res) => {
-  try {
-    // Example: Fetch user's enrolled courses
-    const userId = req.user.id;
-    const courses = await query(
-      `SELECT c.id, c.name, c.department, c.credits 
-       FROM enrollments e 
-       JOIN courses c ON e.course_id = c.id 
-       WHERE e.user_id = ?`,
-      [userId]
-    );
+router.get('/', authenticateToken, (req, res) => {
+  const { fullName } = req.user;
 
-    res.json({ courses });
-  } catch (error) {
-    console.error('Error fetching dashboard data:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
+  // Placeholder courses; replace with dynamic database query
+  const courses = [
+    { name: 'Intro to CS', department: 'Computer Science', credits: 3 },
+    { name: 'Advanced Math', department: 'Mathematics', credits: 4 },
+  ];
+
+  res.render('dashboard', {
+    title: 'Dashboard',
+    activePage: 'dashboard',
+    studentName: fullName,
+    courses,
+  });
 });
 
 export default router;
+

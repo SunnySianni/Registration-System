@@ -9,6 +9,9 @@ import { connectDB } from './config/database.js';
 import userRoutes from './backend/routes/userRoutes.js';
 import courseRoutes from './backend/routes/courseRoutes.js';
 import enrollmentRoutes from './backend/routes/enrollmentRoutes.js';
+import loginRoutes from './backend/routes/loginRoutes.js';
+import profileRoutes from './backend/routes/profileRoutes.js';
+import dashboardRoutes from './backend/routes/dashboardRoutes.js';
 
 // Import middleware
 import { authenticateToken } from './backend/middlewares/auth.js';
@@ -46,40 +49,13 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
 
 // Frontend routes
+app.use('/login', loginRoutes);
+app.use('/profile', authenticateToken, profileRoutes);
+app.use('/dashboard', authenticateToken, dashboardRoutes);
+
+// Default homepage (redirect to login)
 app.get('/', (req, res) => {
-  res.render('loginForm', {
-    title: 'Login',
-    errorMessage: null,
-    username: '',
-  });
-});
-
-app.get('/dashboard', authenticateToken, (req, res) => {
-  const studentName = req.user.fullName; // From the authenticated token
-  const courses = [
-    { name: 'Intro to CS', department: 'Computer Science', credits: 3 },
-    { name: 'Advanced Math', department: 'Mathematics', credits: 4 },
-  ]; // Fetch courses dynamically from the database instead of this placeholder
-
-  res.render('dashboard', {
-    title: 'Dashboard',
-    activePage: 'dashboard',
-    studentName,
-    courses,
-  });
-});
-
-app.get('/course-registration', authenticateToken, (req, res) => {
-  res.render('course-registration', { title: 'Course Registration', activePage: 'course-registration' });
-});
-
-app.get('/profile', authenticateToken, (req, res) => {
-  const userProfile = {
-    fullName: req.user.fullName, // From the authenticated token
-    email: req.user.email, // From the authenticated token
-  }; // Fetch additional profile data dynamically if needed
-
-  res.render('profile', { title: 'Profile', activePage: 'profile', user: userProfile });
+  res.redirect('/login');
 });
 
 // Log all incoming requests for debugging
@@ -88,7 +64,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Error handling
+// Error handling for unknown routes
 app.use((req, res) => {
   res.status(404).render('error', {
     title: 'Page Not Found',
@@ -96,6 +72,7 @@ app.use((req, res) => {
   });
 });
 
+// General error handler
 app.use((err, req, res, next) => {
   console.error('Error:', err.stack);
   res.status(500).render('error', {
@@ -104,7 +81,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
+// Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
