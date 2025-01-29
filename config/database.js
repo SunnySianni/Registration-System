@@ -2,37 +2,33 @@ import { Sequelize } from 'sequelize';
 import 'dotenv/config'
 
 
-// Initialize Sequelize
-export const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
+// creates sequelize object
+const sequelize = new Sequelize(
+  
+  //grab the values from the env file
+  process.env.DB_NAME, 
+  process.env.DB_USER, 
   process.env.DB_PASSWORD,
+  
   {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    logging: false, // Set to true for debugging SQL queries
+  host: process.env.DB_HOST,
+  dialect: "mysql",
+  logging: true,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
   }
-);
+});
 
-// Function to connect to the database
-export const connectDB = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Database connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-    process.exit(1); // Exit process on failure
-  }
-};
+// Check database connection
+try {
+  sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+  } catch (err) {
+      console.error('Unable to connect to the database:', err);
+}
 
-// Utility function to execute raw SQL queries
-export const query = async (sql, replacements = []) => {
-  try {
-    const [results] = await sequelize.query(sql, { replacements });
-    return results;
-  } catch (error) {
-    console.error('Query execution failed:', error);
-    throw error;
-  }
-};
 
+export default sequelize;
